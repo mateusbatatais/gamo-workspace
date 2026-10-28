@@ -1,0 +1,4 @@
+# Ignora ROM/BIOS — só o README fica versionado
+*
+!.gitignore
+!README.md

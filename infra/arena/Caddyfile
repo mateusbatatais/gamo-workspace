@@ -1,0 +1,22 @@
+# Proxy reverso com TLS automático (Let's Encrypt) pra arena.gamo.games.
+# Requer que o DNS (registro A) já aponte pro IP atual da instância --
+# atualizado à mão pelo organizador a cada vez que a arena é ligada, já que
+# o IP muda (VM sob demanda, nunca fixa). Ver README.md, seção "Domínio/TLS".
+#
+# Dois blocos pro MESMO hostname (portas diferentes) -- um certificado só,
+# a porta não entra na identidade do certificado TLS.
+
+arena.gamo.games {
+	reverse_proxy localhost:8000
+}
+
+# O frontend (overrides/web/js/app.js) chama arena-auth direto do navegador
+# em `${location.protocol}//${location.hostname}:8081/...` -- por isso
+# precisa de TLS de verdade nessa porta também, não só na 443. O Caddy
+# precisa fazer *bind* de 8081 pra isso (diferente do bloco acima, que só
+# se conecta como cliente em 8000) -- por isso o arena-auth do Docker é
+# publicado numa porta de HOST diferente (18081, ver docker-compose.yml),
+# senão o bind wildcard do Caddy colide com o bind do Docker na mesma porta.
+arena.gamo.games:8081 {
+	reverse_proxy localhost:18081
+}

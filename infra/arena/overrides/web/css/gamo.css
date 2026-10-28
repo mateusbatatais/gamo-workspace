@@ -1,0 +1,208 @@
+/* Gamo Arena: identidade visual da marca sobreposta ao CloudRetro --
+   arquivo próprio (nunca edita main.css/ui.css originais direto), pra não
+   perder sincronia se o CloudRetro atualizar o CSS dele no futuro.
+
+   box-shadow em vez de border: pinta por fora da caixa sem ser cortado
+   pelo overflow:hidden do próprio #gamebody (diferente de um elemento
+   filho posicionado fora dos limites, que seria cortado).
+*/
+#gamebody {
+    box-shadow: 0 0 0 3px #ee8f0b, 0 0 28px 6px rgba(238, 143, 11, 0.55);
+}
+
+/* esconde a atribuição original do CloudRetro (canto inferior direito) --
+   puramente cosmética, sem clique nem função anexada. */
+.source {
+    display: none;
+}
+
+/* fundo de página com a arte da Gamo (imagem quadrada 2048x2048) no lugar
+   do tile padrão do CloudRetro -- cover+center pra não distorcer nem
+   repetir a imagem. */
+body {
+    background-image: url("/img/gamo-bg.jpg");
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-position: center;
+}
+
+/* Botões L/R visíveis -- CloudRetro não desenha eles no gamepad na tela
+   (só existem como tecla/botão de controle físico). Primeira posição
+   "de teste", flanqueando o topo da tela do jogo -- ajustar depois de ver
+   ao vivo. .btn já resolve display/position/tamanho base; aqui só o
+   visual (sem background-image, é texto puro) e a posição própria.
+
+   Paleta tirada de olhar de verdade em "bt SELECT.png"/"bt START.png"
+   (cinza chumbo com bisel claro no topo e sombra escura embaixo, texto
+   quase da mesma cor do fundo, tipo gravado) -- em vez do laranja da
+   marca, que destoava feio do resto do gamepad (nenhum outro botão tem
+   cor -- só o brilho em volta de #gamebody e a logo usam laranja). */
+.gamo-shoulder-btn {
+    border: none;
+    border-radius: 4px;
+    color: #1a1a1a;
+    text-shadow: 0 1px 0 rgba(255, 255, 255, 0.25);
+    font: bold 11px/1 Arial, sans-serif;
+    padding-top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#btn-l {
+    top: 4px;
+    left: 170px;
+    width: 46px;
+    height: 16px;
+}
+
+#btn-r {
+    top: 4px;
+    left: 424px;
+    width: 46px;
+    height: 16px;
+}
+
+/* Gamo Arena: tema preto+laranja pedido depois de ver a referência do
+   controle "ideal" (corpo escuro, aro laranja, ABXY coloridos). Versão
+   só-CSS -- sem arte nova (corpo/analógico/relevo metálico da referência
+   ficam de fora, isso é design de produto de verdade, não CSS). O que dá
+   pra fazer sem imagem nova:
+
+   1) Um degradê laranja por CIMA da textura cinza original de #gamebody
+      (background-blend-mode) -- esquenta o tom geral sem esconder a
+      textura em si.
+   2) Recolorir A/B/X/Y com filter (sepia+hue-rotate): os sprites
+      originais são cinza monocromático com a letra gravada -- não dá pra
+      pintar um PNG com "color" do CSS, mas filter consegue tingir um
+      cinza pra qualquer matiz. Valores de hue-rotate são uma primeira
+      tentativa -- calibrar depois de ver ao vivo (não tem como prever o
+      tom exato sem renderizar).
+   3) L/R virou aba laranja chapada (falso "metal escovado") em vez do
+      cinza chumbo da rodada anterior -- combina melhor com o resto do
+      tema agora que ficou mais quente.
+
+   Fora dessa versão: analógico na tela (widget de arrastar arrastar->eixo
+   é funcionalidade nova, não estilo) e a placa "GAMO" em relevo (a logo
+   já fixada no canto da página cumpre esse papel -- duplicar dentro do
+   gamepad, que já é bem apertado, ia disputar espaço com o texto de ajuda
+   do rodapé). */
+#gamebody {
+    background-image: linear-gradient(
+            160deg,
+            rgba(238, 143, 11, 0.35) 0%,
+            rgba(120, 60, 10, 0.12) 40%,
+            rgba(0, 0, 0, 0.35) 100%
+        ),
+        url("/img/ui/bg.jpg");
+    background-blend-mode: overlay, normal;
+    background-repeat: no-repeat, no-repeat;
+    background-size: 100% 100%, 100% 100%;
+}
+
+.gamo-shoulder-btn {
+    background: linear-gradient(180deg, #ffab40 0%, #ee8f0b 60%, #c96f00 100%);
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.35) inset,
+        0 -1px 0 rgba(0, 0, 0, 0.3) inset,
+        0 1px 2px rgba(0, 0, 0, 0.5);
+}
+
+#btn-a {
+    filter: sepia(1) saturate(6) hue-rotate(-55deg) brightness(0.95);
+}
+
+#btn-b {
+    filter: sepia(1) saturate(6) hue-rotate(5deg) brightness(1.15);
+}
+
+#btn-x {
+    filter: sepia(1) saturate(6) hue-rotate(165deg) brightness(0.9);
+}
+
+#btn-y {
+    filter: sepia(1) saturate(6) hue-rotate(65deg) brightness(0.95);
+}
+
+/* Gamo Arena: silhueta de "controle de verdade" (pontas mais largas tipo
+   grip, meio mais estreito onde fica a tela) pedida depois de ver que só
+   trocar cor não bastava -- o formato continuava um retângulo puro.
+
+   #gamo-shell é um elemento SEPARADO, atrás de #gamebody (não um filho
+   dele) -- #gamebody tem overflow:hidden, então qualquer coisa "por fora"
+   da própria caixa dele seria cortada, incluindo um ::before/::after. Por
+   ser um irmão, a casca pode ser maior e ter um clip-path com esse
+   contorno sem cortar nem reposicionar nenhum botão real -- tudo que já
+   funciona continua exatamente onde estava, só ganhou uma moldura maior
+   atrás. O polígono foi calculado pra ficar sempre mais largo que os
+   640x286px de #gamebody em qualquer altura onde ele exista -- se algum
+   dia #gamebody mudar de tamanho, os pontos aqui precisam ser recalculados
+   (ver as contas na sessão do dia no README).
+
+   drop-shadow (não box-shadow) porque segue o contorno recortado de
+   verdade -- box-shadow ainda ia desenhar um brilho retangular por baixo
+   da silhueta, destoando visualmente da própria forma. */
+#gamo-shell {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 820px;
+    height: 380px;
+    transform: translate(-50%, -50%);
+    z-index: 0;
+    background: linear-gradient(155deg, #2a2a2a 0%, #1c1408 55%, #120d05 100%);
+    clip-path: polygon(
+        10% 4%,
+        90% 4%,
+        95% 8%,
+        99% 18%,
+        100% 35%,
+        100% 50%,
+        100% 65%,
+        99% 82%,
+        95% 92%,
+        90% 96%,
+        10% 96%,
+        5% 92%,
+        1% 82%,
+        0% 65%,
+        0% 50%,
+        0% 35%,
+        1% 18%,
+        5% 8%
+    );
+    filter: drop-shadow(0 0 3px #ee8f0b) drop-shadow(0 0 22px rgba(238, 143, 11, 0.5))
+        drop-shadow(0 14px 24px rgba(0, 0, 0, 0.6));
+}
+
+#gamebody {
+    z-index: 1;
+}
+
+/* Gamo Arena: "OPTIONS" (sprite original bt OPTIONS.png) renomeado pra
+   "Controles" -- não dá pra editar texto que já está desenhado dentro de
+   um PNG, então troca o sprite por um botão CSS puro com texto de
+   verdade, na mesma paleta cinza chumbo com bisel do SELECT/START
+   original (não a laranja do L/R). Único botão "não-gameplay" que
+   continua visível pro jogador comum (ver app.js) -- os outros (id da
+   sala, compartilhar, encerrar, load/save, texto de atalhos) só
+   aparecem pra quem é staff. */
+.gamo-flat-btn {
+    background: linear-gradient(180deg, #5c5c5c 0%, #3d3d3d 100%);
+    border-radius: 6px;
+    box-shadow:
+        0 1px 0 rgba(255, 255, 255, 0.15) inset,
+        0 -1px 0 rgba(0, 0, 0, 0.4) inset,
+        0 1px 2px rgba(0, 0, 0, 0.5);
+    color: #dadada;
+    text-shadow: 0 1px 0 rgba(0, 0, 0, 0.6);
+    font: bold 10px/1 Arial, sans-serif;
+    padding-top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+#btn-settings {
+    width: 78px;
+}

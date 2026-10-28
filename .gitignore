@@ -1,0 +1,33 @@
+# Workspace do monorepo Gamo: versiona só o que fica na raiz
+# (AGENTS.md, skills/agents do Claude, infra). Cada gamo-* é um repo próprio.
+
+# Repos independentes (clonados pelo bootstrap)
+/gamo-api/
+/gamo-web/
+/gamo-app/
+/gamo-admin/
+/gamo-city/
+
+# Lixo local / dados de trabalho
+/tmp/
+/src/
+/*.csv
+/*.xml
+/*.json
+/*.txt
+/nul
+
+# Configuração local de ferramentas
+.claude/settings.local.json
+.claude/scheduled_tasks.lock
+.kiro/
+.qodo/
+.vscode/
+
+# Segredos
+.env
+.env.*
+*.pem
+*_rsa
+*_ed25519
+node_modules/

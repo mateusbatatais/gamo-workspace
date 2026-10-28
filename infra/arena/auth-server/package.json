@@ -1,0 +1,9 @@
+{
+  "name": "arena-auth-server",
+  "private": true,
+  "version": "1.0.0",
+  "main": "server.js",
+  "dependencies": {
+    "jsonwebtoken": "^9.0.2"
+  }
+}

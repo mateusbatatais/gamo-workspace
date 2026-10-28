@@ -1,0 +1,84 @@
+services:
+    cloud-game:
+        build: .
+        image: cloud-game-local
+        container_name: cloud-game-local
+        depends_on:
+            - xvfb
+        environment:
+            - DISPLAY=:99
+            - MESA_GL_VERSION_OVERRIDE=4.5
+            - CLOUD_GAME_WEBRTC_SINGLEPORT=8443
+            - CLOUD_GAME_COORDINATOR_DEBUG=true
+            - CLOUD_GAME_WORKER_DEBUG=true
+            - CLOUD_GAME_ENCODER_VIDEO_CODEC=vp8
+            - CLOUD_GAME_LIBRARY_WATCHMODE=true
+        ports:
+            # 8000 só em loopback -- o Caddy expõe pro público via
+            # arena.gamo.games (443, TLS de verdade, ver ../Caddyfile). Sem
+            # conflito de porta porque o Caddy nunca faz *bind* de 8000 --
+            # só se conecta nele como cliente (reverse_proxy), o que não
+            # disputa a porta com o bind do Docker (diferente de fazer o
+            # Caddy também escutar na mesma porta -- ver comentário no
+            # arena-auth abaixo pra um caso onde isso realmente conflita).
+            # 9000 (debug) e 8443/udp (mídia WebRTC) continuam públicos
+            # direto -- Caddy não faz proxy de UDP/WebRTC.
+            - "127.0.0.1:8000:8000"
+            - "9000:9000"
+            - "8443:8443/udp"
+        command: >
+            bash -c "./coordinator & while [ ! -S /tmp/.X11-unix/X99 ]; do sleep 0.1; done; while [ ! -f /tmp/.rom-ready ]; do sleep 0.2; done; ./worker"
+        volumes:
+            - ./assets/cores:/usr/local/share/cloud-game/assets/cores
+            - x11:/tmp/.X11-unix
+        tmpfs:
+            - /usr/local/share/cloud-game/assets/games:size=900m,mode=0700
+
+    xvfb:
+        image: kcollins/xvfb:latest
+        entrypoint: ["sh", "-c"]
+        command:
+            [
+                # 640x480x24: Flycast (Dreamcast) segfaulta com 320x240x16 -- precisa
+                # de framebuffer GL compatível com resolução nativa do DC.
+                "rm -f /tmp/.X99-lock /tmp/.X11-unix/X99 && exec Xvfb :99 -screen 0 640x480x24",
+            ]
+        volumes:
+            - x11:/tmp/.X11-unix
+
+    arena-auth:
+        build: ./auth-server
+        container_name: arena-auth
+        env_file:
+            - ./.env.auth
+        ports:
+            # Porta de HOST diferente da porta pública (18081, não 8081) de
+            # propósito: aqui o Caddy PRECISA fazer *bind* de 8081 (é um
+            # site block próprio, escutando conexão de fora -- diferente do
+            # cloud-game acima, onde o Caddy só se conecta como cliente).
+            # Um bind wildcard (0.0.0.0, o que o Caddy faz implicitamente)
+            # conflita com QUALQUER bind específico já existente na mesma
+            # porta -- inclusive um em 127.0.0.1 -- então "só loopback"
+            # não evita a colisão aqui como evita no cloud-game. Descoberto
+            # na prática (systemctl reload caddy falhando com "address
+            # already in use" mesmo o Docker estando só em 127.0.0.1).
+            - "127.0.0.1:18081:8081"
+        restart: unless-stopped
+
+    arena-admin:
+        build: ./admin-server
+        container_name: arena-admin
+        env_file:
+            - ./.env.admin
+        ports:
+            # Fica público direto (sem Caddy): quem chama é o gamo-api pelo
+            # IP puro, de outra máquina (Railway) -- nunca um navegador, então
+            # não tem problema de mixed-content nem depende do DNS manual.
+            - "8082:8082"
+        volumes:
+            - /var/run/docker.sock:/var/run/docker.sock
+            - /opt/arena:/opt/arena
+        restart: unless-stopped
+
+volumes:
+    x11:
