@@ -40,6 +40,7 @@
 - Hardcodar strings de texto visíveis ao usuário (use i18n quando disponível)
 - **Usar o tipo `any`**. Sempre utilize ou crie interfaces/tipos apropriados.
 - **Rodar trabalho pesado de CPU no processo da API** (carregar tabela grande na memória e varrer em JS, loop longo sem I/O, lote disparado por usuário sem fila/limite/cancelamento). A API é um processo só: uma planilha de mil jogos derrubou o site em 2026-10-22. Ver `gamo-api/AGENTS.md` › "Trabalho pesado no processo da API".
+- **Rodar IA paga em massa sem estimativa e ok antes** (script ou rodada que chama o Gemini para muitos itens, principalmente com busca no Google): mostre quantas chamadas e quanto em R$, rode primeiro com poucos itens e espere o ok. Use modelo fixo, nunca `gemini-flash-latest`. Em 2026-10-28 rodadas do CLZ gastaram ~R$ 200 numa tarde. Na API, toda chamada passa pelo teto diário: ver `gamo-api/AGENTS.md` › "IA (Gemini): custo sob controle".
 - **Pular os hooks do git** (`git commit --no-verify`, `HUSKY=0`). Cada commit precisa passar sozinho nos testes do pre-commit — commit quebrado consertado por um "fix" seguinte já foi para produção uma vez (gamo-city, 2026-10-17).
 
 ### ✅ Sempre faça
