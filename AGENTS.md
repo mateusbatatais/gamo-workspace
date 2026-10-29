@@ -88,7 +88,9 @@ Os tipos de domínio principais (ex: `UserGame`, `Console`, `Accessory`) são in
 |---|---|---|
 | `www.gamo.games` | laranja (Origin Certificate) | Caddy: `/images/*` estático, `/city/*` = gamo-city estático, resto → Next (`web`) |
 | `gamo.games` | laranja | redireciona para `www` |
-| `api.gamo.games` | **cinza** (Let's Encrypt; uploads > 100 MB) | `/world-socket/*` → `world` (jogo); resto → `api` (inclui socket.io do chat e leilões) |
+| `api.gamo.games` | laranja desde 2026-10-29 (cert ainda Let's Encrypt; trocar p/ Origin Certificate) | `/world-socket/*` → `world` (jogo); resto → `api` (inclui socket.io do chat e leilões). Caddy repassa o IP real (`header_up X-Forwarded-For {client_ip}`) |
+| `upload.gamo.games` | **cinza** (Let's Encrypt) | só `POST /api/arena/matches` (ROM > 100 MB, limite da CF); resto 404 |
+| `turn.gamo.games` | **cinza** | coturn da voz do City (3478, não passa pela CF) — `TURN_URLS` no `api.env` |
 | `admin.gamo.games` | — | gamo-admin no **Cloudflare Workers** (não é a VPS; build vars no painel do CF) |
 
 Worker `gamo-error-page` na rota `www.gamo.games/*` mostra página amigável em erro/reinício (fail open).
