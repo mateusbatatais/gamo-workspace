@@ -29,6 +29,10 @@ Revisão do **gamo-city** antes de considerar uma tarefa pronta ou publicar.
    no servidor = commit/push no gamo-api (push em `master` = deploy de produção; usar commit seletivo e
    checar `git log origin/master..HEAD` antes).
 
+4b. **Missões.** Se mexeu em `worldQuests.json` ou `worldUnlocks.json`, siga a regra 15 do
+   `gamo-city/AGENTS.md`: nada de renomear/remover id nem tirar/reordenar meta de missão no ar sem ok
+   do usuário; catálogo igual ao da API; `docs/mapa-das-missoes.md` atualizado.
+
 5. **Docs no mesmo commit.** `ROADMAP.md` (o que mudou/pendências), `AGENTS.md` (como funciona, comandos,
    propriedades do Tiled). Arte/som não exigem crédito. Entrega grande ou feita por outra ferramenta:
    rode o agent `city-docs-keeper` antes de atualizar o roadmap.

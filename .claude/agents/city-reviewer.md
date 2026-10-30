@@ -78,6 +78,17 @@ problema real (revisão de 2026-10-14). Seu relatório é organizado por essas r
       peças/zonas, não de `x`/`y` literais).
     - **Docs** descrevendo um estado intermediário (lugar errado de painel, tamanho antigo do mapa).
 
+13. **Missões já no ar** (regra 15 do AGENTS.md). Compare `src/content/worldQuests.json` com o
+    `origin/main` (`git diff origin/main -- src/content/worldQuests.json`):
+    - id de missão renomeado ou removido = achado **alto** (progresso das contas se perde; mapa/veículo
+      que ela liberava volta a travar). Só passa com ok explícito do usuário registrado no ROADMAP.
+    - meta removida, reordenada ou inserida antes da última = achado **alto** (`done` guarda posições):
+      deveria ser missão nova com outro id.
+    - missão nova inserida antes de outra do mesmo NPC sem entrada em `implied` = achado médio.
+    - recompensa trocada em `worldUnlocks.json` sem plano para quem já entregou = achado médio.
+    - catálogo diferente do `gamo-api/src/modules/world/world.npcQuests.json`, ou
+      `docs/mapa-das-missoes.md` sem atualizar = achado médio.
+
 ## Verificações a rodar (no gamo-city)
 
 ```bash
