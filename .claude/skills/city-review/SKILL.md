@@ -33,7 +33,8 @@ Revisão do **gamo-city** antes de considerar uma tarefa pronta ou publicar.
    `gamo-city/AGENTS.md`: nada de renomear/remover id nem tirar/reordenar meta de missão no ar sem ok
    do usuário; catálogo igual ao da API; `docs/mapa-das-missoes.md` atualizado.
 
-5. **Docs no mesmo commit.** `ROADMAP.md` (o que mudou/pendências), `AGENTS.md` (como funciona, comandos,
+5. **Docs no mesmo commit.** `docs/funcionalidades.md` (histórico do que mudou), `docs/para-conferir.md`
+   (como testar), `ROADMAP.md` (só o que vem: tire o item entregue), `AGENTS.md` (como funciona, comandos,
    propriedades do Tiled). Arte/som não exigem crédito. Entrega grande ou feita por outra ferramenta:
    rode o agent `city-docs-keeper` antes de atualizar o roadmap.
 

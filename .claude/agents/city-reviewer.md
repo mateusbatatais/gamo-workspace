@@ -52,7 +52,7 @@ problema real (revisão de 2026-10-14). Seu relatório é organizado por essas r
    (`src/domain`) importando Phaser/React; texto visível sem i18n (pt-BR e en); comentário em inglês.
 9. **Testes.** Regra nova em `src/domain` sem teste; bug corrigido sem teste que falharia antes; teste que
    não pegaria a regressão (asserção frouxa, mock que esconde o caso).
-10. **Docs.** Mudança de comportamento sem atualizar `ROADMAP.md`/`AGENTS.md`; comando novo sem entrar
+10. **Docs.** Mudança de comportamento sem atualizar `docs/funcionalidades.md`/`docs/para-conferir.md`/`AGENTS.md` (e tirar do `ROADMAP.md` o que foi entregue); comando novo sem entrar
     em "Comandos" do AGENTS.md. (Arte/som não exigem crédito — não existe tela de créditos.)
 11. **Interiores (casa/cômodos).** Conferir as regras de "Interiores: como construir" do
     `gamo-city/AGENTS.md`: parede com cor de 28 px + topo branco + rodapé; divisória horizontal fina e
