@@ -108,6 +108,9 @@ Roupa básica:
   separa coxa e quadril; sem a folga a perna ficava sem calça).
 - Sombra da roupa pela luz média 3×3 do corpo: some mamilo e resto da cueca. Contorno preto fica.
 - Patins: a roupa não pinta os pés (a bota fica).
+- Estampa (listra, xadrez, zíper) sempre presa ao topo/centro do tronco do quadro, nunca à
+  coordenada do quadro: o corpo sobe 1 px ao respirar e a listra escorregaria.
+- Zíper/aberta/desenho da frente só de frente; de lado e de costas não aparecem.
 
 Processo:
 - Conferir **todas as direções e todos os quadros** depois de mudar uma regra (o erro dos patins de
