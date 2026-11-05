@@ -75,6 +75,7 @@ O lado esquerdo **nunca** tem molde: é o direito espelhado.
 | Folha do corpo | `build_base_body.py` | — |
 | Folhas montadas | `build_rider_sheets.py` (depois de qualquer import de veículo/mapa) | — |
 | Checagem | `check_assets.py` | — |
+| Emblemas da camisa | (prompt: folha 4x4 de emblemas 16x16, fundo branco) | `import_emblems.py <img> <grade> <nomes>` → `estampas/` |
 
 Roupa básica: `gamo-city/src/domain/avatar/hdOutfit.ts` (pinta pelo mapa; sem mapa, regra por
 posição). Teste no jogo: `pnpm dev` → `http://localhost:5174/?hd=1` (`?hd=0` desliga).
@@ -111,6 +112,9 @@ Roupa básica:
 - Estampa (listra, xadrez, zíper) sempre presa ao topo/centro do tronco do quadro, nunca à
   coordenada do quadro: o corpo sobe 1 px ao respirar e a listra escorregaria.
 - Zíper/aberta/desenho da frente só de frente; de lado e de costas não aparecem.
+- Emblema do peito: 11×10 px, sem contorno forçado (10×9 vira mancha). Marca/personagem real
+  (DC, Marvel, Nintendo...) é decisão do usuário: avisar do risco de marca; o ChatGPT costuma recusar.
+- Bermuda saiu (ficava igual à calça).
 
 Processo:
 - Conferir **todas as direções e todos os quadros** depois de mudar uma regra (o erro dos patins de
