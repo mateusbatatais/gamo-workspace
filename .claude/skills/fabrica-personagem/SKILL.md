@@ -94,6 +94,14 @@ pele; só de frente, preso ao tronco do mapa de partes). Teste no jogo: `pnpm de
 ## Erros que já cometemos (não repetir)
 
 Recorte / importação:
+- **Atividades** (2026-11-06): moldes `act_templates.py`, importar com `import_act.py <atividade>
+  <direção> <img>` (a IA muda o espaçamento e desenha maior: o importador acha as MOLDURAS e as
+  linhas-guia de cada célula e reencaixa; centraliza pela pele, não pela bola). Folha:
+  `build_act_sheet.py` → `body/acts-sheet.png`. Arremesso: usa do 2º ao 7º quadro; de costas o
+  1º é o parado (a bola na frente some atrás do corpo).
+- **Mapa de partes que volta fora do molde** (vários moldes numa imagem, bonecos menores, quadro
+  faltando): `import_parts_loose.py <img>` casa cada quadro pela silhueta da referência e corrige
+  pernas (pela altura do parado), cueca (quadril) e cabeça (a do parado encaixada).
 - **Rebarba e parte faltando em peça de rosto** (2026-11-06): o importador guardava pele retocada
   pela IA e ignorava o que passa do contorno da cabeça. `--saida rosto` agora usa `extract_face`.
   Depois de qualquer importação: `python scripts/character-hd/clean_pieces.py` (ponto solto até
