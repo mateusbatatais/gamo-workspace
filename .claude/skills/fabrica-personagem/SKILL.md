@@ -94,6 +94,14 @@ pele; só de frente, preso ao tronco do mapa de partes). Teste no jogo: `pnpm de
 ## Erros que já cometemos (não repetir)
 
 Recorte / importação:
+- **Mapa de partes com "pé" na mão** (2026-11-06): sapato/meia pintavam pontos na mão (parado de lado,
+  correndo, veículos). `python scripts/character-hd/fix_parts_hands.py` (idempotente) corrige o mapa
+  do corpo e os de `veiculos/partes/`; rodar de novo depois de gerar mapa novo e refazer as montadas.
+- **Personagem "tremendo" na bicicleta de lado:** a IA desenhou quadros 2–3 px para trás.
+  `build_rider_sheets.py` (`STEADY_SIDE`) alinha o tronco na mediana dos 6 quadros.
+- **Cabeça escapando do capacete** (nuca atrás de lado no veículo): `clipHeadToMask` (`hdFace.ts`)
+  apaga a cabeça fora da largura do capacete, linha a linha; dentro dela (boca das máscaras
+  abertas) e abaixo dele nada muda.
 - **Cabelo que a IA manda PRETO numa folha cinza** (2026-11-06, espetado-pontas): trocar todo o
   escuro por cinza apaga o contorno (fica chapado, 5–15 tons). Clarear só o MIOLO (máscara do
   escuro erodida ~1 pixel da IA, `MinFilter`), manter contorno e traços internos pretos; se o
