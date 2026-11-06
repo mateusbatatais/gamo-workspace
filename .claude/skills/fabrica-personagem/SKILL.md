@@ -113,7 +113,8 @@ Roupa básica:
 - Estampa (listra, xadrez, zíper) sempre presa ao topo/centro do tronco do quadro, nunca à
   coordenada do quadro: o corpo sobe 1 px ao respirar e a listra escorregaria.
 - Zíper/aberta/desenho da frente só de frente; de lado e de costas não aparecem.
-- Emblema do peito: 11×10 px, sem contorno forçado (10×9 vira mancha). Marca/personagem real
+- Emblema do peito: 9×8 px (o usuário pediu 1–2 px de margem no tronco de ~12×11), começando 2 linhas
+  abaixo do topo do tronco, sem contorno forçado. Marca/personagem real
   (DC, Marvel, Nintendo...) é decisão do usuário: avisar do risco de marca; o ChatGPT costuma recusar.
 - Bermuda saiu (ficava igual à calça).
 
