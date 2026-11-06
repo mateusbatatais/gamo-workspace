@@ -125,9 +125,14 @@ Roupa básica:
   íris por código (não pedir "olho azul" como estilo); expressão (bravo, surpreso...) não é estilo:
   fica para emote temporário.
 - Cabelo: a IA redesenha as cabeças e muda a grade — o importador acha os desenhos pela mancha,
-  não pela posição. Pedir tudo num castanho só (cor por código). Pele x cabelo pelo TOM (pele
-  avermelhada, verde≈azul), não pela luz; dúvida resolvida pelo vizinho. Conferir pintando o
-  cabelo de verde sobre o corpo para ver se pegou pele.
+  não pela posição. Pedir tudo num castanho só (cor por código). Erros já vistos (2026-11-05):
+  vista de lado desenhada virada para a ESQUERDA (cabelo caía no rosto → espelhar pela borda com
+  pele); de costas sem rosto para prender, o encaixe subia e deixava a nuca careca (→ exigir que o
+  desenho cubra a cabeça toda, mesma escala da frente); castanho quase preto lido como contorno e
+  brilho claro lido como pele (buracos); sombra avermelhada do pescoço lida como cabelo (rabisco
+  no queixo); tamanho do pixel medido desenho a desenho (ruído → cabelo flutuando). Conferir com
+  `HAIR_DEBUG=<pasta>` e no estúdio (Parado e Andando) antes de commitar; "afro-puff" e
+  "cacheado-volume" passar como "-".
 - Peça de cabeça montada: a cabeça sobe 14–16 px no veículo; a busca de `headOffset` precisa de
   folga (24), senão trava no limite e a peça flutua.
 
