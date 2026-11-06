@@ -78,10 +78,12 @@ O lado esquerdo **nunca** tem molde: é o direito espelhado.
 | Emblemas da camisa | (prompt: folha 4x4 de emblemas 16x16, fundo branco) | `import_emblems.py <img> <grade> <nomes>` → `estampas/` |
 | Olhos (16 pares frente+lado) | `eyes_template.py` | `import_eyes.py <img> <célula:nome>...` → `olhos/` |
 | Cabelos (12 por folha, frente/costas/lado) | `hair_template.py` | `import_hair.py <img> <nomes>` (acha os desenhos sozinho) → `cabelos/` |
+| Marcas no rosto (16 pares frente+lado) | `eyes_template.py marcas` | `import_eyes.py --saida marcas <img> <célula:nome>...` → `marcas/` |
 | Emblemas de console | — (código) `make_console_emblems.py` (arte do City, sem logo) | — |
 
 Roupa básica: `gamo-city/src/domain/avatar/hdOutfit.ts` (pinta pelo mapa; sem mapa, regra por
-posição). Teste no jogo: `pnpm dev` → `http://localhost:5174/?hd=1` (`?hd=0` desliga).
+posição). Pele: `hdSkin.ts` (antes da roupa). Corpo feminino: `hdBody.ts` (por código, antes da
+pele; só de frente, preso ao tronco do mapa de partes). Teste no jogo: `pnpm dev` → `http://localhost:5174/?hd=1` (`?hd=0` desliga).
 
 ## Erros que já cometemos (não repetir)
 
