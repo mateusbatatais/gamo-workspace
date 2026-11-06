@@ -94,6 +94,14 @@ pele; só de frente, preso ao tronco do mapa de partes). Teste no jogo: `pnpm de
 ## Erros que já cometemos (não repetir)
 
 Recorte / importação:
+- **Cabelo que a IA manda PRETO numa folha cinza** (2026-11-06, espetado-pontas): trocar todo o
+  escuro por cinza apaga o contorno (fica chapado, 5–15 tons). Clarear só o MIOLO (máscara do
+  escuro erodida ~1 pixel da IA, `MinFilter`), manter contorno e traços internos pretos; se o
+  desenho vier maior que os outros, diminuir a célula (~85%, alinhada embaixo) antes de importar.
+  O importador precisa da folha inteira (célula sozinha não acha a grade): colar a célula tratada
+  na folha original e passar `-` nos outros nomes.
+- **Volume de lado (`hdSilhouette.ts`) some quando o braço passa na frente** da barriga/peito:
+  é de propósito (o braço cobre); não "consertar" pintando por cima do braço.
 - **Cueca branca some** quando encosta no veículo cinza (o fundo "vaza" por ela): na bicicleta
   (`SEATED`) o recorte compara com o molde só DENTRO da caixa da cueca; fora dela isso cria
   bolsões brancos. Nunca ligar a comparação com o molde para todos os veículos.
