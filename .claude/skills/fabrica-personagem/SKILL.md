@@ -94,6 +94,9 @@ pele; só de frente, preso ao tronco do mapa de partes). Teste no jogo: `pnpm de
 ## Erros que já cometemos (não repetir)
 
 Recorte / importação:
+- **Peça importada não aparece no jogo:** o jogo lê `public/assets/characters-hd/` (cópia +
+  `manifest.json`). Depois de importar/ajustar qualquer peça: `pnpm art:hd` (o teste
+  `hdManifest.test.ts` falha se esquecer). A montagem é uma só: `domain/avatar/hdCompose.ts`.
 - **Folha de rosto em outra escala** (2026-11-06, rosto-2: a IA desenhou as cabeças a ~6,8 px por
   pixel em vez de 9,9): `import_eyes.py` leu só fundo branco. `regrid_faces.py <ia> <saida.png> <n>`
   reencaixa pela linha do alto da cabeça e depois importa a saída. Peça avulsa (2 vistas numa
