@@ -84,7 +84,7 @@ O lado esquerdo **nunca** tem molde: é o direito espelhado.
 | Emblemas de console | — (código) `make_console_emblems.py` (arte do City, sem logo) | — |
 
 Roupa básica: `gamo-city/src/domain/avatar/hdOutfit.ts` (pinta pelo mapa; sem mapa, regra por
-posição). Pele: `hdSkin.ts` (antes da roupa). Corpo feminino: `hdBody.ts` (por código, antes da
+posição). Roupas extras por código (colete, cinto, suspensório, gola polo, blusa de frio, kimono, maiô/biquíni/sunga): `hdGarments.ts` (só região e cor; a pintura é a `paint` do `hdOutfit.ts`). Pele: `hdSkin.ts` (antes da roupa). Corpo feminino: `hdBody.ts` (por código, antes da
 pele; só de frente, preso ao tronco do mapa de partes). Teste no jogo: `pnpm dev` → `http://localhost:5174/?hd=1` (`?hd=0` desliga).
 
 ## Erros que já cometemos (não repetir)
