@@ -76,6 +76,7 @@ O lado esquerdo **nunca** tem molde: é o direito espelhado.
 | Folhas montadas | `build_rider_sheets.py` (depois de qualquer import de veículo/mapa) | — |
 | Checagem | `check_assets.py` | — |
 | Emblemas da camisa | (prompt: folha 4x4 de emblemas 16x16, fundo branco) | `import_emblems.py <img> <grade> <nomes>` → `estampas/` |
+| Emblemas de console | — (código) `make_console_emblems.py` (arte do City, sem logo) | — |
 
 Roupa básica: `gamo-city/src/domain/avatar/hdOutfit.ts` (pinta pelo mapa; sem mapa, regra por
 posição). Teste no jogo: `pnpm dev` → `http://localhost:5174/?hd=1` (`?hd=0` desliga).
