@@ -79,6 +79,7 @@ O lado esquerdo **nunca** tem molde: é o direito espelhado.
 | Olhos (16 pares frente+lado) | `eyes_template.py` | `import_eyes.py <img> <célula:nome>...` → `olhos/` |
 | Cabelos (12 por folha, frente/costas/lado) | `hair_template.py` | `import_hair.py <img> <nomes>` (acha os desenhos sozinho) → `cabelos/` |
 | Marcas no rosto (16 pares frente+lado) | `eyes_template.py marcas` | `import_eyes.py --saida marcas <img> <célula:nome>...` → `marcas/` |
+| Barbas (16 pares frente+lado) | `eyes_template.py barbas` | `import_eyes.py --saida barbas <img> <célula:nome>...` → `barbas/` |
 | Emblemas de console | — (código) `make_console_emblems.py` (arte do City, sem logo) | — |
 
 Roupa básica: `gamo-city/src/domain/avatar/hdOutfit.ts` (pinta pelo mapa; sem mapa, regra por
