@@ -77,13 +77,14 @@ O lado esquerdo **nunca** tem molde: é o direito espelhado.
 | Checagem | `check_assets.py` | — |
 | Emblemas da camisa | (prompt: folha 4x4 de emblemas 16x16, fundo branco) | `import_emblems.py <img> <grade> <nomes>` → `estampas/` |
 | Olhos (16 pares frente+lado) | `eyes_template.py` | `import_eyes.py <img> <célula:nome>...` → `olhos/` |
-| Cabelos (12 por folha, frente/costas/lado) | `hair_template.py` | `import_hair.py <img> <nomes>` (acha os desenhos sozinho) → `cabelos/` |
+| Cabelos (12 por folha, frente/costas/lado) | `hair_template.py` | `import_hair.py [--cinza] <img> <nomes>` (acha os desenhos sozinho; `--cinza` se a IA pintou de cinza) → `cabelos/` |
 | Marcas no rosto (16 pares frente+lado) | `eyes_template.py marcas` | `import_eyes.py --saida marcas <img> <célula:nome>...` → `marcas/` |
 | Barbas (16 pares frente+lado) | `eyes_template.py barbas` | `import_eyes.py --saida barbas <img> <célula:nome>...` → `barbas/` |
 | Costas (9 por folha, corpo inteiro frente/costas/lado) | `back_template.py` | `import_back.py <img> <célula:nome>...` → `costas/` (nome `asas-*`/`capa-*`/`jetpack*` = animado; `mochila*` aparece de frente) |
 | Cabeças de animal (12 por folha, frente/costas/lado) | `hair_template.py cabecas` | `import_heads.py <img> <nomes>` → `cabecas/` (prompt: pelo no MESMO pêssego, detalhes em cinza, sem olhos; avulsa: `--celula`; olhos: `head_eyes.py`) |
 | Rosto (16 pares frente+lado: óculos, viseiras, máscaras de olho) | `eyes_template.py rosto` | `import_eyes.py --saida rosto <img> <célula:nome>...` → `rosto/` (conferir se a IA não desceu a peça para a boca) |
 | Máscaras/capacetes (12 por folha, 3 vistas) | `hair_template.py mascaras` | `import_heads.py --saida mascaras <img> <nomes>` → `mascaras/` (máscara em cinza = pintável; nada de capacete igual ao de filme) |
+| Chapéus (12 por folha, 3 vistas, cinza) | `hair_template.py chapeus` | `import_heads.py --saida chapeus <img> <nomes>` → `chapeus/` |
 | Emblemas de console | — (código) `make_console_emblems.py` (arte do City, sem logo) | — |
 
 Roupa básica: `gamo-city/src/domain/avatar/hdOutfit.ts` (pinta pelo mapa; sem mapa, regra por
