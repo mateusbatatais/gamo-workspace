@@ -77,6 +77,7 @@ O lado esquerdo **nunca** tem molde: é o direito espelhado.
 | Checagem | `check_assets.py` | — |
 | Emblemas da camisa | (prompt: folha 4x4 de emblemas 16x16, fundo branco) | `import_emblems.py <img> <grade> <nomes>` → `estampas/` |
 | Olhos (16 pares frente+lado) | `eyes_template.py` | `import_eyes.py <img> <célula:nome>...` → `olhos/` |
+| Cabelos (12 por folha, frente/costas/lado) | `hair_template.py` | `import_hair.py <img> <nomes>` (acha os desenhos sozinho) → `cabelos/` |
 | Emblemas de console | — (código) `make_console_emblems.py` (arte do City, sem logo) | — |
 
 Roupa básica: `gamo-city/src/domain/avatar/hdOutfit.ts` (pinta pelo mapa; sem mapa, regra por
@@ -121,6 +122,12 @@ Roupa básica:
 - Olhos: pedir à IA desenhando NA cabeça (erra menos que no vazio) e guardar só a diferença; cor da
   íris por código (não pedir "olho azul" como estilo); expressão (bravo, surpreso...) não é estilo:
   fica para emote temporário.
+- Cabelo: a IA redesenha as cabeças e muda a grade — o importador acha os desenhos pela mancha,
+  não pela posição. Pedir tudo num castanho só (cor por código). Pele x cabelo pelo TOM (pele
+  avermelhada, verde≈azul), não pela luz; dúvida resolvida pelo vizinho. Conferir pintando o
+  cabelo de verde sobre o corpo para ver se pegou pele.
+- Peça de cabeça montada: a cabeça sobe 14–16 px no veículo; a busca de `headOffset` precisa de
+  folga (24), senão trava no limite e a peça flutua.
 
 Processo:
 - Conferir **todas as direções e todos os quadros** depois de mudar uma regra (o erro dos patins de
