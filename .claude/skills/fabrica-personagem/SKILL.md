@@ -76,6 +76,7 @@ O lado esquerdo **nunca** tem molde: é o direito espelhado.
 | Folhas montadas | `build_rider_sheets.py` (depois de qualquer import de veículo/mapa) | — |
 | Checagem | `check_assets.py` | — |
 | Emblemas da camisa | (prompt: folha 4x4 de emblemas 16x16, fundo branco) | `import_emblems.py <img> <grade> <nomes>` → `estampas/` |
+| Olhos (16 pares frente+lado) | `eyes_template.py` | `import_eyes.py <img> <célula:nome>...` → `olhos/` |
 | Emblemas de console | — (código) `make_console_emblems.py` (arte do City, sem logo) | — |
 
 Roupa básica: `gamo-city/src/domain/avatar/hdOutfit.ts` (pinta pelo mapa; sem mapa, regra por
@@ -117,6 +118,9 @@ Roupa básica:
   abaixo do topo do tronco, sem contorno forçado. Marca/personagem real
   (DC, Marvel, Nintendo...) é decisão do usuário: avisar do risco de marca; o ChatGPT costuma recusar.
 - Bermuda saiu (ficava igual à calça).
+- Olhos: pedir à IA desenhando NA cabeça (erra menos que no vazio) e guardar só a diferença; cor da
+  íris por código (não pedir "olho azul" como estilo); expressão (bravo, surpreso...) não é estilo:
+  fica para emote temporário.
 
 Processo:
 - Conferir **todas as direções e todos os quadros** depois de mudar uma regra (o erro dos patins de
