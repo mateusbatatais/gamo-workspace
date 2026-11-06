@@ -94,6 +94,18 @@ pele; só de frente, preso ao tronco do mapa de partes). Teste no jogo: `pnpm de
 ## Erros que já cometemos (não repetir)
 
 Recorte / importação:
+- **Folha de rosto em outra escala** (2026-11-06, rosto-2: a IA desenhou as cabeças a ~6,8 px por
+  pixel em vez de 9,9): `import_eyes.py` leu só fundo branco. `regrid_faces.py <ia> <saida.png> <n>`
+  reencaixa pela linha do alto da cabeça e depois importa a saída. Peça avulsa (2 vistas numa
+  imagem): medir o pixel e colar na célula 1 de uma folha 1536x1024 do mesmo jeito.
+- **Orelhas** (`import_heads.py --saida orelhas`): pedir no pêssego da pele; o importador guarda
+  só o que está fora da nossa cabeça ou bem diferente dela (cor segue a pele por código). Na mesma
+  folha, chapéus com `--saida chapeus` e capuz com `--saida mascaras`, com `-` nos outros nomes.
+- **Caudas** (`import_back.py`, nome `cauda-*`): pedir no pêssego da pele; o importador não apaga
+  o tom de pele dessas (`SKIN_OK`) e a cor segue a pele (`tintBack`).
+- **Cabelo longo com chapéu:** `cutHairUnderHat` corta acima da aba (linha mais baixa em que o
+  chapéu ainda é largo; ponta/pompom caídos não contam) e, abaixo, limita à largura da aba abrindo
+  0,75 px por linha, com contorno na borda nova. Coroa/faixa não cortam.
 - **Mapa de partes com "pé" na mão** (2026-11-06): sapato/meia pintavam pontos na mão (parado de lado,
   correndo, veículos). `python scripts/character-hd/fix_parts_hands.py` (idempotente) corrige o mapa
   do corpo e os de `veiculos/partes/`; rodar de novo depois de gerar mapa novo e refazer as montadas.
