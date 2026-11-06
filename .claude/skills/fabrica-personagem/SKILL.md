@@ -94,6 +94,11 @@ pele; só de frente, preso ao tronco do mapa de partes). Teste no jogo: `pnpm de
 ## Erros que já cometemos (não repetir)
 
 Recorte / importação:
+- **Rebarba e parte faltando em peça de rosto** (2026-11-06): o importador guardava pele retocada
+  pela IA e ignorava o que passa do contorno da cabeça. `--saida rosto` agora usa `extract_face`.
+  Depois de qualquer importação: `python scripts/character-hd/clean_pieces.py` (ponto solto até
+  2 px; furo de importação nos capacetes listados em `HOLE_NAMES`) e `pnpm art:hd`. Conferir
+  com a peça sobre a cabeça em VERMELHO (rebarba de pele aparece na hora).
 - **Peça importada não aparece no jogo:** o jogo lê `public/assets/characters-hd/` (cópia +
   `manifest.json`). Depois de importar/ajustar qualquer peça: `pnpm art:hd` (o teste
   `hdManifest.test.ts` falha se esquecer). A montagem é uma só: `domain/avatar/hdCompose.ts`.
