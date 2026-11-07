@@ -84,6 +84,7 @@ O lado esquerdo **nunca** tem molde: é o direito espelhado.
 | Cabeças de animal (12 por folha, frente/costas/lado) | `hair_template.py cabecas` | `import_heads.py <img> <nomes>` → `cabecas/` (prompt: pelo no MESMO pêssego, detalhes em cinza, sem olhos; avulsa: `--celula`; olhos: `head_eyes.py`) |
 | Rosto (16 pares frente+lado: óculos, viseiras, máscaras de olho) | `eyes_template.py rosto` | `import_eyes.py --saida rosto <img> <célula:nome>...` → `rosto/` (conferir se a IA não desceu a peça para a boca) |
 | Máscaras/capacetes (12 por folha, 3 vistas) | `hair_template.py mascaras` | `import_heads.py --saida mascaras <img> <nomes>` → `mascaras/` (máscara em cinza = pintável; nada de capacete igual ao de filme) |
+| Peças do "crie seu capacete" (viseiras, bocas, orelhas/antenas; cinza) | `mask_parts_template.py <tipo>` (bocas: `bocas-magenta`) | `import_mask_parts.py` (nomes por célula em `body/moldes/capacete-pecas.json`) → `capacete/<tipo>/`; topo: depois `clean_helmet_tops.py` UMA vez (fiapo do contorno, queixo, costas espelhadas, nada solto); bases: `build_helmet_bases.py` |
 | Chapéus (12 por folha, 3 vistas, cinza) | `hair_template.py chapeus` | `import_heads.py --saida chapeus <img> <nomes>` → `chapeus/` |
 | Emblemas de console | — (código) `make_console_emblems.py` (arte do City, sem logo) | — |
 
