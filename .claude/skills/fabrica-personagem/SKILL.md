@@ -102,6 +102,13 @@ Recorte / importação:
 - **Mapa de partes que volta fora do molde** (vários moldes numa imagem, bonecos menores, quadro
   faltando): `import_parts_loose.py <img>` casa cada quadro pela silhueta da referência e corrige
   pernas (pela altura do parado), cueca (quadril) e cabeça (a do parado encaixada).
+- **Barco a remo (2026-11-07):** a IA pôs 2 remos cruzados de lado e olhos de frente →
+  `import_vehicle.py rowboat` desenha UM remo de lado (`single_oar`), tira olhos (`erase_eyes`) e
+  pinta os remos de madeira escura (`boat_oar.py`: o marrom claro da IA caía no `isSkin` e a cor de
+  pele pintava o remo). A folha `montado-rowboat` leva só o personagem (`GAME_DRAWS_VEHICLE`: o barco
+  é maior que o palco 80x80 de frente/costas; o jogo desenha o barco por baixo). Mapa de partes: o
+  molde tira o remo (`strip_oar`); a resposta veio com os 3 moldes numa imagem e o barco pintado
+  no fundo → `import_parts_boat.py` (células medidas, alinha pela figura, só partes de cima).
 - **Rebarba e parte faltando em peça de rosto** (2026-11-06): o importador guardava pele retocada
   pela IA e ignorava o que passa do contorno da cabeça. `--saida rosto` agora usa `extract_face`.
   Depois de qualquer importação: `python scripts/character-hd/clean_pieces.py` (ponto solto até
