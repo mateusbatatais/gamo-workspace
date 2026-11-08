@@ -85,6 +85,7 @@ O lado esquerdo **nunca** tem molde: é o direito espelhado.
 | Rosto (16 pares frente+lado: óculos, viseiras, máscaras de olho) | `eyes_template.py rosto` | `import_eyes.py --saida rosto <img> <célula:nome>...` → `rosto/` (conferir se a IA não desceu a peça para a boca) |
 | Máscaras/capacetes (12 por folha, 3 vistas) | `hair_template.py mascaras` | `import_heads.py --saida mascaras <img> <nomes>` → `mascaras/` (máscara em cinza = pintável; nada de capacete igual ao de filme) |
 | Peças do "crie seu capacete" (viseiras, bocas, orelhas/antenas; cinza) | `mask_parts_template.py <tipo>` (bocas: `bocas-magenta`) | `import_mask_parts.py` (nomes por célula em `body/moldes/capacete-pecas.json`) → `capacete/<tipo>/`; topo: depois `clean_helmet_tops.py` UMA vez (fiapo do contorno, queixo, costas espelhadas, nada solto); bases: `build_helmet_bases.py` |
+| Roupa longa (vestido, saia longa, sobretudo...; 1 molde por roupa, cinza) | `garment_templates.py [nome]` | `import_long_garment.py <molde> <img> [--saida nome] [--debug pasta]` → `roupas/<nome>-folha.png` (encaixe pela cabeça/ombros; esconde peças e versão curta em `hdLong.ts` › `LONG_GARMENTS` — roupa nova precisa de linha lá) |
 | Chapéus (12 por folha, 3 vistas, cinza) | `hair_template.py chapeus` | `import_heads.py --saida chapeus <img> <nomes>` → `chapeus/` |
 | Emblemas de console | — (código) `make_console_emblems.py` (arte do City, sem logo) | — |
 
@@ -160,6 +161,15 @@ Recorte / importação:
   da caminhada; `check_assets.py` acusa.
 - A cueca pode aparecer **numa linha só** (perna levantada): achar a cueca pelo bloco com MAIS claro,
   não o mais comprido (uma sombra cinza nas costas também tem 2–3 claros).
+
+- **Veículo "em alta" pela IA** (2026-11-08): pedir "redesenhe com o dobro de resolução" fez a IA
+  trocar a vista de cima por perfil reto, crescer ~40% e desenhar detalhe fino (reduzido vira
+  borrão). Montados são desenhados sobre a silhueta atual: silhueta tem que ficar IGUAL. Molde com
+  o veículo em Scale2x já na grade final + "mesma silhueta, até 16 cores" (`vehicle_hd_template.py`).
+- **Roupa longa** (2026-11-08): a IA manteve a grade do molde, mas desloca o desenho até ~7 px por
+  imagem → encaixar pela cabeça/ombros (linhas 0–39); halo claro da borda (cinza > 222) e a moldura
+  da caixa (risco reto de 1 px) entram como "cinza" se não forem filtrados; nada acima da última
+  linha da cabeça (mapa de partes). Pedido de "kimono longo" voltou como kimono de luta.
 
 Patins:
 - Bota de lado pelo **cano no tornozelo** + apagar o pé que sobra fora da bota **só de lado**
