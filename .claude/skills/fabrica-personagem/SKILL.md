@@ -78,6 +78,8 @@ O lado esquerdo **nunca** tem molde: é o direito espelhado.
 | Emblemas da camisa | (prompt: folha 4x4 de emblemas 16x16, fundo branco) | `import_emblems.py <img> <grade> <nomes>` → `estampas/` |
 | Olhos (16 pares frente+lado) | `eyes_template.py` | `import_eyes.py <img> <célula:nome>...` → `olhos/` |
 | Cabelos (12 por folha, frente/costas/lado) | `hair_template.py` | `import_hair.py [--cinza] <img> <nomes>` (acha os desenhos sozinho; `--cinza` se a IA pintou de cinza) → `cabelos/` |
+| Perucas de cachos (brilho claro) | `hair_template.py` | escurecer o castanho, `import_heads.py --saida cabelos <img> <nomes>` + `fix_imported_wig.py <nomes>` (uma vez) → `cabelos/` |
+| Maquiagem / nariz | `eyes_template.py marcas` | `import_eyes.py --saida marcas\|rosto` + `clean_face_paint.py [--min=N] marcas/<nome> rosto/<nome>` |
 | Marcas no rosto (16 pares frente+lado) | `eyes_template.py marcas` | `import_eyes.py --saida marcas <img> <célula:nome>...` → `marcas/` |
 | Barbas (16 pares frente+lado) | `eyes_template.py barbas` | `import_eyes.py --saida barbas <img> <célula:nome>...` → `barbas/` |
 | Costas (9 por folha, corpo inteiro frente/costas/lado) | `back_template.py` | `import_back.py <img> <célula:nome>...` → `costas/` (nome `asas-*`/`capa-*`/`jetpack*` = animado; `mochila*` aparece de frente) |
@@ -95,6 +97,19 @@ posição). Roupas extras por código (colete, cinto, suspensório, gola polo, b
 pele; só de frente, preso ao tronco do mapa de partes). Teste no jogo: `pnpm dev` → `http://localhost:5174/?hd=1` (`?hd=0` desliga).
 
 ## Erros que já cometemos (não repetir)
+
+Palhaço e capacete robô (2026-11-09):
+- **Peruca de cachos** (brilho castanho claro): o `import_hair.py` lê o brilho como pele (buracos) e
+  erra o encaixe da vista de costas quando o topo é careca. Funcionou: escurecer o castanho da imagem
+  da IA (`b < r*0.34 e g < r*0.62` → ×0.85/0.8), importar com `import_heads.py --saida cabelos`
+  (encaixe pela grade do molde) e rodar UMA vez `fix_imported_wig.py <nomes>` (tira olho/boca da
+  IA, fecha furos, castanho → cinza + contorno no formato das outras perucas).
+- **A IA desenha olhos** mesmo pedindo só o chapéu/capacete: nas máscaras de rosto aberto, tirar os
+  componentes soltos (olhos) depois do import, senão o olho fica dobrado.
+- **Maquiagem/nariz** (`import_eyes.py --saida marcas|rosto`): vem com pele retocada e olhos da IA.
+  `clean_face_paint.py marcas/<nome> rosto/<nome>` guarda só vermelho, azul, branco e o contorno
+  colado neles. Traço de 1–3 px de lado some junto (a boca triste de lado sumiu).
+- Pedir o capacete pelo FORMATO, sem nome de personagem (risco de marca e o ChatGPT recusa).
 
 Recorte / importação:
 - **Atividades** (2026-11-06): moldes `act_templates.py`, importar com `import_act.py <atividade>
