@@ -95,6 +95,8 @@ Os tipos de domínio principais (ex: `UserGame`, `Console`, `Accessory`) são in
 | `admin.gamo.games` | — | gamo-admin no **Cloudflare Workers** (não é a VPS; build vars no painel do CF) |
 | `staging.gamo.games` / `admin-staging.gamo.games` | laranja (Origin Certificate) | STAGING (portão desligado): site (`web-staging`), `/city/`, `/api` e `/socket.io` (`api-staging`), `/world-socket` (`world-staging`) — projeto Compose `/opt/gamo/staging` |
 
+**IPv6 desligado na zona (Network → IPv6 Compatibility = off, via API em 2026-11-10).** Com a API na nuvem laranja ela ganhou AAAA; em Wi-Fi com IPv6 instável o app Android (React Native/OkHttp, sem timeout de conexão e sem "happy eyeballs") ficava carregando para sempre, enquanto o navegador caía para IPv4 sozinho. Não religar sem antes pôr timeout/fallback no app.
+
 Worker `gamo-error-page` nas rotas `www.gamo.games/*` e `gamo.games/*` mostra página amigável em erro/reinício. O código dele não está em nenhum repo (só no painel da CF). Plano Workers **grátis = 100 mil execuções/dia, zera 00:00 UTC (21h de Brasília)** — cada requisição que casa com a rota conta, por isso `www.gamo.games/images/*`, `/_next/*` e `/city/*` têm rota própria **sem worker** (Workers Routes do domínio). Rota nova de arquivo estático pesado → criar rota sem worker também. As duas rotas com worker estão em **Fail open (proceed)**: estourou o limite, o tráfego vai direto para a VPS (site no ar, só sem a página de erro). Em 2026-11-08 chegou a ~90 mil/dia (alerta de 78% por e-mail) antes de tirar `/city`; se continuar alto, ver os logs do worker (Observability) por caminho ou assinar o Workers Paid (US$ 5/mês, 10 mi/mês).
 
 **Como cada projeto vai para produção:**
