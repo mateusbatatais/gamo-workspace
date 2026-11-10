@@ -1,56 +1,86 @@
 #!/usr/bin/env bash
-# Publica no STAGING (https://staging.gamo.games) a branch em que cada projeto ESTÁ AGORA.
-# Roda no PC (Git Bash), na raiz do workspace:
+# Publica no STAGING o que está COMMITADO na branch atual de cada projeto. Roda no PC.
 #
-#   ./staging.sh web              # o gamo-web, na branch atual dele
-#   ./staging.sh api city web     # vários (sempre na ordem api → city → web)
-#   ./staging.sh                  # todos os que NÃO estão em main/master
+#   ./staging.sh                  # menu: mostra os 4 projetos e a branch de cada um; escolha
+#   ./staging.sh web              # direto: o gamo-web, na branch atual dele
+#   ./staging.sh api city         # vários (sempre na ordem api → city → web → admin)
 #   ./staging.sh web feat/x       # uma branch específica (só com um projeto)
 #
-# Só vai o que está COMMITADO (o build sai de um worktree limpo do commit); alteração sem commit
-# fica de fora — o script avisa. Não precisa de push. Docker Desktop ligado para api/web.
-# Quem faz o trabalho: gamo-api/deploy/staging/deploy-staging.sh (runbook no README de lá).
+# No Windows dá para dar dois cliques em staging.cmd (abre este menu).
+# Endereços: https://staging.gamo.games (site, /city/) · https://admin-staging.gamo.games (admin)
+# Não precisa de push. Alteração sem commit NÃO vai (o script avisa). Docker Desktop ligado para
+# api e web. Quem faz o trabalho: deploy/staging/deploy-staging.sh do gamo-api, lido do
+# origin/master (não depende de como está o seu checkout do gamo-api).
 set -euo pipefail
 cd "$(dirname "$0")"
 ROOT="$(pwd)"
-DEPLOY="${STAGING_DEPLOY_SCRIPT:-$ROOT/gamo-api/deploy/staging/deploy-staging.sh}"
-[ -f "$DEPLOY" ] || { echo "não achei $DEPLOY (a branch feat/staging do gamo-api já foi para o master?)" >&2; exit 1; }
 
-declare -A REPO=([api]=gamo-api [city]=gamo-city [web]=gamo-web)
-declare -A MAIN=([api]=master [city]=main [web]=main)
+ORDER=(api city web admin)
+declare -A REPO=([api]=gamo-api [city]=gamo-city [web]=gamo-web [admin]=gamo-admin)
+declare -A MAIN=([api]=master [city]=main [web]=main [admin]=master)
+declare -A NAME=([api]="API + mundo do City" [city]="Gamo City" [web]="site" [admin]="painel admin")
 
-ARGS=("$@")
+# Script de publicação: sempre a versão do origin/master do gamo-api
+DEPLOY="$(mktemp)"
+trap 'rm -f "$DEPLOY"' EXIT
+git -C "$ROOT/gamo-api" fetch -q origin master
+git -C "$ROOT/gamo-api" show origin/master:deploy/staging/deploy-staging.sh > "$DEPLOY" 2>/dev/null \
+  || { echo "o origin/master do gamo-api ainda não tem deploy/staging/deploy-staging.sh" >&2; exit 1; }
+
+branch_of() { git -C "$ROOT/${REPO[$1]}" branch --show-current; }
+dirty_of() { [ -n "$(git -C "$ROOT/${REPO[$1]}" status --porcelain --untracked-files=no)" ]; }
+
 SERVICES=()
 REF_OVERRIDE=""
-for arg in "${ARGS[@]}"; do
+for arg in "$@"; do
   case "$arg" in
-    api|city|web) SERVICES+=("$arg") ;;
+    api|city|web|admin) SERVICES+=("$arg") ;;
     *) REF_OVERRIDE="$arg" ;;
   esac
 done
 if [ -n "$REF_OVERRIDE" ] && [ "${#SERVICES[@]}" -ne 1 ]; then
   echo "branch específica só com UM projeto (ex.: ./staging.sh web feat/x)" >&2; exit 1
 fi
-if [ "${#SERVICES[@]}" -eq 0 ]; then
-  for s in api city web; do
-    b="$(git -C "$ROOT/${REPO[$s]}" branch --show-current)"
-    [ -n "$b" ] && [ "$b" != "${MAIN[$s]}" ] && SERVICES+=("$s")
+
+# Sem argumentos: menu
+if [ "$#" -eq 0 ]; then
+  echo "Publicar no staging — o que está commitado na branch atual de cada projeto:"
+  echo
+  i=1
+  DEFAULT=()
+  for s in "${ORDER[@]}"; do
+    b="$(branch_of "$s")"
+    note=""
+    [ "$b" = "${MAIN[$s]}" ] && note=" (= produção)" || DEFAULT+=("$i")
+    dirty_of "$s" && note="$note  ⚠ tem alteração sem commit (não vai)"
+    printf '  %d) %-6s %-22s branch %s%s\n' "$i" "$s" "${NAME[$s]}" "${b:-?}" "$note"
+    i=$((i + 1))
   done
-  [ "${#SERVICES[@]}" -gt 0 ] || { echo "todos os projetos estão em main/master: diga qual publicar (ex.: ./staging.sh web)" >&2; exit 1; }
+  echo
+  hint="${DEFAULT[*]:-}"
+  read -r -p "Quais publicar? números separados por espaço${hint:+ [Enter = $hint]}: " picks
+  picks="${picks:-$hint}"
+  [ -n "$picks" ] || { echo "nada escolhido"; exit 0; }
+  for n in $picks; do
+    [[ "$n" =~ ^[1-4]$ ]] || { echo "opção inválida: $n" >&2; exit 1; }
+    SERVICES+=("${ORDER[$((n - 1))]}")
+  done
 fi
 
-for s in api city web; do
+for s in "${ORDER[@]}"; do
   printf '%s\n' "${SERVICES[@]}" | grep -qx "$s" || continue
-  repo="$ROOT/${REPO[$s]}"
-  ref="${REF_OVERRIDE:-$(git -C "$repo" branch --show-current)}"
+  ref="${REF_OVERRIDE:-$(branch_of "$s")}"
   [ -n "$ref" ] || { echo "$s: sem branch (HEAD solto) — passe a branch" >&2; exit 1; }
-  if [ -n "$(git -C "$repo" status --porcelain --untracked-files=no)" ] && [ -z "$REF_OVERRIDE" ]; then
+  if [ -z "$REF_OVERRIDE" ] && dirty_of "$s"; then
     echo "⚠ $s: há alterações SEM commit em ${REPO[$s]} — elas NÃO vão para o staging"
   fi
+  echo
   echo "▶ $s ← $ref"
   GAMO_ROOT="$ROOT" bash "$DEPLOY" "$s" "$ref"
 done
 
 echo
-echo "Pronto: https://staging.gamo.games  (City: /city/)"
-echo "Senha do portão: usuário gamo + a senha do staging. Contas: e-mail da equipe ou teste1..10@staging.gamo.games (mesma senha)."
+echo "Pronto."
+echo "  Site e City: https://staging.gamo.games  (City em /city/)"
+echo "  Admin:       https://admin-staging.gamo.games"
+echo "  Contas: e-mail da equipe ou teste1..teste10@staging.gamo.games — senha em /opt/gamo/staging/.env (STAGING_PASSWORD)"
