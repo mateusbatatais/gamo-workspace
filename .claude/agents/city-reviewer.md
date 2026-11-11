@@ -59,7 +59,12 @@ problema real (revisão de 2026-10-14). Seu relatório é organizado por essas r
     vertical grossa (sem buraco entre porta e parede); porta de frente grande (`animated_door_big_*`) e
     lateral `animated_door_vertical_*`, passagem de 1 tile; faixas de parede com `sortY`; tomadas só em
     parede lisa e longe de móveis; estações agrupadas e fixas, resto removível; tapete como móvel
-    `rug`; recorte novo conferido em prancha; quadro de folha animada com a largura certa; planta
+    `rug`; recorte novo conferido em prancha; quadro de folha animada com a largura certa; e o
+    checklist da skill `/montar-interior` (piso = bloco 3×2 do LimeZu com sombra, nunca o bloco
+    inteiro repetido; sem camada de chão por cima do cenário; passagens desenhadas depois das
+    paredes; peça composta só colando originais — `putpixel`/`ImageDraw`/`.resize(` no gerador é
+    achado alto; escada lateral = peça pronta e bloqueada; bases alinhadas, enfeite de parede abaixo
+    do `sortY`, mesa centralizada e itens sem passar da borda); planta
     mudou → `HOUSE_LAYOUT_VERSION` subiu.
 
 12. **Commits de outra ferramenta / mapa editado** (regras 11–14 do AGENTS.md; revisão de 2026-10-17).
