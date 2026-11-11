@@ -29,6 +29,10 @@ Leia antes: `.claude/skills/fabrica-personagem/SKILL.md` (lista "Erros que já c
 5. `cd gamo-city && npx tsc -b && npx vitest run src/domain/avatar src/tools/characterStudio`.
 6. Docs: se mudou fluxo/comando, `gamo-city/AGENTS.md` (Fábrica de Personagens) e a skill foram
    atualizados no mesmo commit?
+7. Cores (regra 16, ajuste LimeZu): a prévia foi conferida JÁ com o ajuste (`gradePixels` de
+   `src/domain/art/limezuGrade.ts`, que roda no fim de toda montagem)? Peça importada que alguém
+   escureceu/dessaturou à mão antes = achado (o ajuste agiria duas vezes). Cor nova de paleta ou pele
+   natural nova fora da faixa (pele natural deve ficar igual: `limezuGrade.test.ts`).
 
 ## Relatório
 

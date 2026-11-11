@@ -19,6 +19,22 @@ Este arquivo é o **como fazer** e o **o que não repetir**.
   respiração do parado, patins, roupa básica (pintada sobre o corpo pelo mapa) e cores.
 - Nada de Gemini/API em massa sem estimativa e ok antes (regra do monorepo).
 
+## Cores: ajuste LimeZu (2026-11-11)
+
+O personagem inteiro passa por um ajuste de cor no fim da montagem (`gamo-city/src/domain/art/
+limezuGrade.ts`, chamado em `src/game/rendering/hdJobs.ts`): saturação acima de 0,45 cai pela
+metade (0,62 na faixa da pele), para combinar com o LimeZu. Regra 16 do `gamo-city/AGENTS.md`.
+- **Não** pré-escurecer nem dessaturar a peça da IA na importação (o ajuste já age; faria duas vezes).
+  A peça pode chegar viva, mas peça à IA cores suaves de qualquer jeito: inclua no prompt
+  "soft, slightly muted colors like the LimeZu Modern Interiors pack; no neon or pure saturated colors".
+- Cor nova em `hdPalettes.ts`/`hdSkin.ts`: o criador mostra a amostra já ajustada (`gradeRgb`).
+  Pele natural nova precisa ficar com saturação ≤ 0,62 no matiz 8°–40° (o teste `limezuGrade.test.ts`
+  confere que pele natural não muda).
+- Conferir a prévia com o ajuste aplicado: no jogo/criador já vale; a Fábrica (`character-studio`)
+  e o PNG cru mostram SEM o ajuste (mais vivos que no jogo). Na prévia em Python, aplicar o mesmo ajuste.
+- Arte que NÃO é do personagem e vai direto para `public/assets/` (ícone, placa, objeto): aplicar
+  `gradePixels` no script e rodar `pnpm art:check-colors` (sem argumento confere o que mudou).
+
 ## Fluxo de um pedido à IA
 
 1. Gerar o **molde** (script `*_templates.py`), que vai para `body/pedir-ia/` numerado. A pasta só

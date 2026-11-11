@@ -89,6 +89,13 @@ problema real (revisão de 2026-10-14). Seu relatório é organizado por essas r
     - catálogo diferente do `gamo-api/src/modules/world/world.npcQuests.json`, ou
       `docs/mapa-das-missoes.md` sem atualizar = achado médio.
 
+14. **Cores (regra 16 do AGENTS.md, ajuste LimeZu).** Imagem nova ou alterada em `public/assets/`
+    fora das pastas do LimeZu e de `characters-hd`: rode `pnpm art:check-colors` (sem argumento
+    confere os PNGs novos/alterados contra o `main`); ✘ = achado médio (arte nossa mais viva que o
+    LimeZu: deveria passar pelo importador ou por `gradePixels`). Também: ajuste aplicado duas vezes
+    na mesma imagem (não é idempotente), caminho novo de desenho do personagem que não passa por
+    `hdJobRunner` (fica sem o ajuste), cor fixa nova de pintura (paleta, tinta de facção) muito viva.
+
 ## Verificações a rodar (no gamo-city)
 
 ```bash
