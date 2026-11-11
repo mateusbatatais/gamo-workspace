@@ -11,6 +11,17 @@ Tudo fica em `gamo-city/art-src/characters-hd/body/` e `gamo-city/scripts/charac
 A referência completa de como funciona está em `gamo-city/AGENTS.md`, seção "Fábrica de Personagens".
 Este arquivo é o **como fazer** e o **o que não repetir**.
 
+## Personagens da campanha (NPCs)
+
+- Montar na Fábrica, modo **Montar personagem** (nunca no criador do jogo: grava na conta de quem
+  monta) → **Copiar visual** → colar o objeto em `NPC_HD_LOOKS` (`gamo-city/src/content/npcs.ts`) com o
+  id do NPC. O Mateus também pode mandar a receita no chat.
+- Editar depois: copiar o objeto do `npcs.ts` → **Colar visual** (aceita o JSON e o objeto do
+  TypeScript, com ou sem `id:` em volta) → ajustar → copiar e substituir.
+- Retrato da cena da campanha = o mesmo personagem ampliado (`cityCharacterPortraitDataUrl(npcHdOutfit(id))`).
+- Faltou peça (roupa/acessório próprio do personagem) → criar a peça antes, pelo fluxo abaixo.
+- `content/npcs.test.ts` barra receita com campo que o jogo não lê (erro de digitação).
+
 ## Divisão de trabalho
 
 - **A IA (ChatGPT, à mão pelo usuário, sem custo de API)** desenha: poses e animações novas, o
