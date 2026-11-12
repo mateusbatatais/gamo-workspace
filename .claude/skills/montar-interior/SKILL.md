@@ -47,6 +47,15 @@ Antes de montar, liste por cômodo o que a referência tem e procure cada item. 
   orientais (inteiros e modulares), poltronas (linhas ~374–381), passadeira, e a **escada lateral**.
 - Biblioteca do editor (`public/assets/library/<pacote>/`): peças avulsas já recortadas
   (`int-3-bathroom`, `int-12-kitchen`, `int-20-japanese-interiors`, `int-26-condominium`...).
+- Oficina Vilar (2026-11-12): telefone de disco (`1_Generic` px 167,633), TV de tubo com antena e
+  chiado (`animated/animated_old_tv*.png`, 6 quadros: use como peça animada `anim`), painel de
+  ferramentas (`1_Generic` px 2,877 e 34,877), portas de madeira inteiras de 16×28 (`1_Generic`
+  px 64,643 e 80,643), estantes com potes (`2_LivingRoom` px 160,390), gaveteiro de aço
+  (`Modern_Office` px 5,373), caixas de papelão (`1_Generic` px 192,947), armários-balcão
+  (`1_Generic` px 0,1072 e 0,1120, 64×40), gráfico de parede (`Modern_Office` px 145,199).
+- Gerador novo: use `scripts/maps/interior_kit.py` (classe `Interior`) com a planta em
+  `art-src/<mapa>-layout.json` e `interiorFromLayout` no `houseDesign.ts` — exemplo:
+  `build_vilar_workshop.py`. Não copie o gerador da casa de Julia.
 - Sempre montar **prancha de conferência** (fundo roxo `(150,120,170)`, zoom 4–8×, nome embaixo) e
   recortar pelo **px exato** da peça: recorte com sobra pega a vizinha (a coifa veio com um cooktop).
 
